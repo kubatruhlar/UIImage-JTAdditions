@@ -16,5 +16,6 @@
 - (UIImage *)jt_scaledProportionallyToWidth:(CGFloat)width;
 - (UIImage *)jt_scaledToSize:(CGSize)newSize;
 - (UIImage *)jt_mergedWithImage:(UIImage *)anotherImage;
+- (UIImage *)jt_appliedAlpha:(CGFloat)alpha;
 
 @end
