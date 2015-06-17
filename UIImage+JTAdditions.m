@@ -29,6 +29,32 @@
     return createdImage;
 }
 
++ (UIImage *)jt_imageWithRadialGradientSize:(CGSize)size innerColor:(UIColor *)innerColor outerColor:(UIColor *)UIGraphicsBeginImageContext(size);
+    CGGradientRef myGradient;
+    CGColorSpaceRef myColorspace;
+    size_t num_locations = 2;
+    CGFloat locations[2] = { 0.0, 1.0 };
+    CGFloat sRed, sGreen, sBlue, sAlpha, eRed, eGreen, eBlue, eAlpha;
+    [innerColor getRed:&sRed green:&sGreen blue:&sBlue alpha:&sAlpha];
+    [outerColor getRed:&eRed green:&eGreen blue:&eBlue alpha:&eAlpha];
+    CGFloat components[8] = { sRed, sGreen, sBlue, sAlpha, eRed, eGreen, eBlue, eAlpha};
+    myColorspace = CGColorSpaceCreateDeviceRGB();
+    myGradient = CGGradientCreateWithColorComponents (myColorspace, components, locations, num_locations);
+    center = CGPointMake(center.x * size.width, center.y * size.height);
+    CGPoint startPoint = center;
+    CGPoint endPoint = center;
+    radius = MIN(size.width, size.height) * radius;
+    CGFloat startRadius = 0;
+    CGFloat endRadius = radius;
+    CGContextDrawRadialGradient (UIGraphicsGetCurrentContext(), myGradient, startPoint, startRadius, endPoint, endRadius, kCGGradientDrawsAfterEndLocation);
+    UIImage *gradientImg;
+    gradientImg = UIGraphicsGetImageFromCurrentImageContext();
+    CGColorSpaceRelease(myColorspace);
+    CGGradientRelease(myGradient);
+    UIGraphicsEndImageContext();
+    return gradientImg;
+}
+
 - (UIImage *)jt_filledWithColor:(UIColor *)color {
     UIGraphicsBeginImageContextWithOptions(self.size, NO, [UIScreen mainScreen].scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
