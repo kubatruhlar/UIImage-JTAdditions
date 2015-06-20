@@ -11,7 +11,7 @@
 
 + (UIImage *)jt_imageWithView:(UIView *)view;
 + (UIImage *)jt_imageWithColor:(UIColor *)color size:(CGSize)size;
-+ (UIImage *)jt_imageWithRadialGradientSize:(CGSize)size innerColor:(UIColor *)innerColor outerColor:(UIColor *)outerColor center:(CGPoint)center radius:(CGFloat)radius
++ (UIImage *)jt_imageWithRadialGradientSize:(CGSize)size innerColor:(UIColor *)innerColor outerColor:(UIColor *)outerColor center:(CGPoint)center radius:(CGFloat)radius;
 - (UIImage *)jt_filledWithColor:(UIColor *)color;
 - (UIImage *)jt_scaledProportionallyToHeight:(CGFloat)height;
 - (UIImage *)jt_scaledProportionallyToWidth:(CGFloat)width;
