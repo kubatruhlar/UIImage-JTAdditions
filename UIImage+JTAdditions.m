@@ -29,7 +29,8 @@
     return createdImage;
 }
 
-+ (UIImage *)jt_imageWithRadialGradientSize:(CGSize)size innerColor:(UIColor *)innerColor outerColor:(UIColor *)UIGraphicsBeginImageContext(size);
++ (UIImage *)jt_imageWithRadialGradientSize:(CGSize)size innerColor:(UIColor *)innerColor outerColor:(UIColor *)outerColor center:(CGPoint)center radius:(CGFloat)radius {
+    UIGraphicsBeginImageContext(size);
     CGGradientRef myGradient;
     CGColorSpaceRef myColorspace;
     size_t num_locations = 2;
