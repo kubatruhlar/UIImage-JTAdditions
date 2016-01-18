@@ -75,13 +75,13 @@
 
 - (UIImage *)jt_scaledProportionallyToHeight:(CGFloat)height {
     CGFloat finalScale = self.size.height / height;
-    UIImage *scaledImage = [UIImage imageWithCGImage:[self CGImage] scale:(self.scale * finalScale) orientation:(self.imageOrientation)];
+    UIImage *scaledImage = [UIImage imageWithCGImage:[self CGImage] scale:([UIScreen mainScreen].scale * finalScale) orientation:(self.imageOrientation)];
     return scaledImage;
 }
 
 - (UIImage *)jt_scaledProportionallyToWidth:(CGFloat)width {
-    CGFloat finalScale = self.size.height / width;
-    UIImage *scaledImage = [UIImage imageWithCGImage:[self CGImage] scale:(self.scale * finalScale) orientation:(self.imageOrientation)];
+    CGFloat finalScale = self.size.width / width;
+    UIImage *scaledImage = [UIImage imageWithCGImage:[self CGImage] scale:([UIScreen mainScreen].scale * finalScale) orientation:(self.imageOrientation)];
     return scaledImage;
 }
 
