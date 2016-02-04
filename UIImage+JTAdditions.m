@@ -12,9 +12,10 @@
 + (UIImage *)jt_imageWithView:(UIView *)view {
     CGFloat scale = [[UIScreen mainScreen] scale];
     UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, scale);
-    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:true];
     UIImage * image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+    
     return image;
 }
 
@@ -54,6 +55,67 @@
     CGGradientRelease(myGradient);
     UIGraphicsEndImageContext();
     return gradientImg;
+}
+
+- (UIImage *)jt_flipHorizontally {
+    UIGraphicsBeginImageContext(self.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextTranslateCTM(context, 0, self.size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    
+    CGContextTranslateCTM(context, self.size.width, 0);
+    CGContextScaleCTM(context, -1.0, 1.0);
+    
+    CGContextDrawImage(context, CGRectMake(0.0, 0.0, self.size.width, self.size.height), self.CGImage);
+    
+    UIImage *flipedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return flipedImage;
+}
+
+- (UIImage *)jt_flipVertically {
+    UIGraphicsBeginImageContext(self.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextTranslateCTM(context, self.size.width, 0);
+    CGContextScaleCTM(context, -1.0, 1.0);
+    
+    CGContextDrawImage(context, CGRectMake(0.0, 0.0, self.size.width, self.size.height), self.CGImage);
+    
+    UIImage *flipedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return flipedImage;
+}
+
+- (UIImage *)jt_cropWithRect:(CGRect)rect {
+    double (^rad)(double) = ^(double deg) {
+        return deg / 180.0 * M_PI;
+    };
+    
+    CGAffineTransform rectTransform;
+    switch (self.imageOrientation) {
+        case UIImageOrientationLeft:
+            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(rad(90)), 0, -self.size.height);
+            break;
+        case UIImageOrientationRight:
+            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(rad(-90)), -self.size.width, 0);
+            break;
+        case UIImageOrientationDown:
+            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(rad(-180)), -self.size.width, -self.size.height);
+            break;
+        default:
+            rectTransform = CGAffineTransformIdentity;
+    };
+    rectTransform = CGAffineTransformScale(rectTransform, self.scale, self.scale);
+    
+    CGImageRef imageRef = CGImageCreateWithImageInRect([self CGImage], CGRectApplyAffineTransform(rect, rectTransform));
+    UIImage *result = [UIImage imageWithCGImage:imageRef scale:self.scale orientation:self.imageOrientation];
+    CGImageRelease(imageRef);
+    
+    return result;
 }
 
 - (UIImage *)jt_filledWithColor:(UIColor *)color {
@@ -96,13 +158,13 @@
 - (UIImage *)jt_mergedWithImage:(UIImage *)anotherImage {
     CGSize newImageSize = CGSizeMake(MAX(self.size.width, anotherImage.size.width), MAX(self.size.height, anotherImage.size.height));
     UIGraphicsBeginImageContext(newImageSize);
-    if (UIGraphicsBeginImageContextWithOptions != NULL) {
+    if (&UIGraphicsBeginImageContextWithOptions != NULL) {
         UIGraphicsBeginImageContextWithOptions(newImageSize, NO, [[UIScreen mainScreen] scale]);
     }
     [anotherImage drawAtPoint:CGPointMake(roundf((newImageSize.width-anotherImage.size.width)/2),
-                                         roundf((newImageSize.height-anotherImage.size.height)/2))];
+                                          roundf((newImageSize.height-anotherImage.size.height)/2))];
     [self drawAtPoint:CGPointMake(roundf((newImageSize.width-self.size.width)/2),
-                                        roundf((newImageSize.height-self.size.height)/2))];
+                                  roundf((newImageSize.height-self.size.height)/2))];
     UIImage *mergedImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return mergedImage;
