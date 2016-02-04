@@ -58,7 +58,7 @@
 }
 
 - (UIImage *)jt_flipHorizontally {
-    UIGraphicsBeginImageContext(self.size);
+    UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     CGContextTranslateCTM(context, 0, self.size.height);
@@ -76,7 +76,7 @@
 }
 
 - (UIImage *)jt_flipVertically {
-    UIGraphicsBeginImageContext(self.size);
+    UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     CGContextTranslateCTM(context, self.size.width, 0);
