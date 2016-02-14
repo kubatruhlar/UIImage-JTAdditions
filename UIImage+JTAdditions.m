@@ -57,6 +57,15 @@
     return gradientImg;
 }
 
+- (UIImage *)jt_roundImage {
+    UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale);
+    [[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0.0, 0.0, self.size.width, self.size.height) cornerRadius:self.size.width / 2.0] addClip];
+    [self drawInRect:CGRectMake(0.0, 0.0, self.size.width, self.size.height)];
+    UIImage *roundedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return roundedImage;
+}
+
 - (UIImage *)jt_flipHorizontally {
     UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();

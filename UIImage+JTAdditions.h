@@ -21,5 +21,6 @@
 - (UIImage *)jt_appliedAlpha:(CGFloat)alpha;
 - (UIImage *)jt_flipHorizontally;
 - (UIImage *)jt_flipVertically;
+- (UIImage *)jt_roundImage;
 
 @end
