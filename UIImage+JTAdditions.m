@@ -57,6 +57,21 @@
     return gradientImg;
 }
 
++ (UIImage *)jt_imageGradientWithTopColor:(UIColor *)topColor bottomColor:(UIColor *)bottomColor topEdge:(CGFloat)topEdge bottomEdge:(CGFloat)bottomEdge size:(CGSize)size {
+    CAGradientLayer *gradientLayer = [CAGradientLayer new];
+    gradientLayer.name = @"gradientLayerTagKey";
+    gradientLayer.frame = CGRectMake(0.0, 0.0, size.width, size.height);
+    gradientLayer.colors = [NSArray arrayWithObjects:(id)topColor.CGColor, (id)bottomColor.CGColor, nil];
+    gradientLayer.locations = [NSArray arrayWithObjects:[NSNumber numberWithFloat:topEdge], [NSNumber numberWithFloat:bottomEdge], nil];
+    
+    // Layer to image
+    UIGraphicsBeginImageContext(gradientLayer.frame.size);
+    [gradientLayer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *outputImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return outputImage;
+}
+
 - (UIImage *)jt_roundImage {
     UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale);
     [[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0.0, 0.0, self.size.width, self.size.height) cornerRadius:self.size.width / 2.0] addClip];

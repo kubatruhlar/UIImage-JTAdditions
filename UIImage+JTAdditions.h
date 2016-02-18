@@ -12,6 +12,20 @@
 + (UIImage *)jt_imageWithView:(UIView *)view;
 + (UIImage *)jt_imageWithColor:(UIColor *)color size:(CGSize)size;
 + (UIImage *)jt_imageWithRadialGradientSize:(CGSize)size innerColor:(UIColor *)innerColor outerColor:(UIColor *)outerColor center:(CGPoint)center radius:(CGFloat)radius;
+
+/**
+ *  Create easy gradient.
+ *
+ *  @param topColor    Top color.
+ *  @param bottomColor The bottom color.
+ *  @param topEdge     The point between 0.0 and 1.0 where the top color is presented as is.
+ *  @param topEdge     The point between 0.0 and 1.0 where the bottom color is presented as is.
+ *  @param size        The final image size.
+ *
+ *  @return Final image.
+ */
++ (UIImage *)jt_imageGradientWithTopColor:(UIColor *)topColor bottomColor:(UIColor *)bottomColor topEdge:(CGFloat)topEdge bottomEdge:(CGFloat)bottomEdge size:(CGSize)size;
+
 - (UIImage *)jt_cropWithRect:(CGRect)rect;
 - (UIImage *)jt_filledWithColor:(UIColor *)color;
 - (UIImage *)jt_scaledProportionallyToHeight:(CGFloat)height;
